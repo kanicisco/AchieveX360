@@ -1,0 +1,526 @@
+/* ==========================================================================
+   AchieveX 360 - Premium Excel-Driven Dynamic Analytics Dashboard CSS
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Theme Palette */
+    --navy: #0f172a;
+    --navy-light: #1e293b;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #eff6ff;
+    --secondary: #6366f1;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --purple: #8b5cf6;
+    --teal: #0d9488;
+    --dark: #0f172a;
+
+    --bg-body: #f8fafc;
+    --bg-card: rgba(255, 255, 255, 0.90);
+    --border-color: rgba(226, 232, 240, 0.9);
+    --text-primary: #0f172a;
+    --text-muted: #64748b;
+    --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.02);
+}
+
+[data-theme="dark"], [data-bs-theme="dark"] {
+    --bg-body: #080d1a;
+    --bg-card: rgba(15, 23, 42, 0.88);
+    --border-color: rgba(51, 65, 85, 0.8);
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+    --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    margin: 0;
+    position: relative;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand, .title {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   Full Screen Centered Background Watermark
+   ========================================================================== */
+.screen-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 62vw;
+    max-width: 680px;
+    min-width: 280px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.07;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0 0 35px rgba(37, 99, 235, 0.25));
+    transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease;
+    animation: watermarkFloat 14s ease-in-out infinite alternate;
+}
+
+[data-theme="dark"] .screen-watermark,
+[data-bs-theme="dark"] .screen-watermark {
+    opacity: 0.095;
+    filter: brightness(1.25) contrast(115%) drop-shadow(0 0 45px rgba(59, 130, 246, 0.45));
+}
+
+.screen-watermark img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+@keyframes watermarkFloat {
+    0% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate(-50%, -52%) scale(1.02) rotate(0.5deg);
+    }
+    100% {
+        transform: translate(-50%, -48%) scale(0.98) rotate(-0.5deg);
+    }
+}
+
+@keyframes pulseDot {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    50% { transform: scale(1.25); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+/* ==========================================================================
+   Enhanced Header & High Visibility Logo Pill
+   ========================================================================== */
+header, .app-header {
+    background: linear-gradient(135deg, #0b1727 0%, #1e3a8a 50%, #0d9488 100%);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 16px 4%;
+}
+
+.logo-pill {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 6px 14px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.22), 0 0 16px rgba(37, 99, 235, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-pill:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(37, 99, 235, 0.45);
+}
+
+.logo-pill img, .navbar-brand img {
+    height: 48px;
+    max-height: 52px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+
+/* ==========================================================================
+   Dashboard Main Layout & Cards
+   ========================================================================== */
+.wrap {
+    max-width: 1600px;
+    margin: auto;
+    padding: 22px 3%;
+    position: relative;
+    z-index: 1;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.badge {
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+    color: #0369a1;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 13px;
+    box-shadow: 0 2px 8px rgba(3, 105, 161, 0.12);
+}
+
+[data-theme="dark"] .badge, [data-bs-theme="dark"] .badge {
+    background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%);
+    color: #e0f2fe;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.card, .box, .dash-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover, .box:hover, .dash-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -5px rgba(37, 99, 235, 0.14);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+.card, .kpi-card {
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card small {
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+}
+
+.num, .kpi-value {
+    font-size: 26px;
+    font-weight: 800;
+    margin-top: 6px;
+    font-family: var(--font-heading);
+    line-height: 1.2;
+}
+
+/* ==========================================================================
+   Inputs, Filters & Pills
+   ========================================================================== */
+.filters {
+    padding: 18px;
+    margin-bottom: 16px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 11px;
+}
+
+label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+select, input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    outline-color: var(--primary);
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+select:focus, input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.catbox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg-card);
+    padding: 12px;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.catbox label, .month-pill, .category-pill {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 7px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.catbox label.active, .catbox label:has(input:checked), .month-pill.active, .category-pill.active {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    border-color: var(--primary);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+}
+
+/* ==========================================================================
+   Buttons & Action Controls
+   ========================================================================== */
+.actions {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+button {
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    font-weight: 650;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.2);
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.35);
+}
+
+button.light {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+button.light:hover {
+    background: var(--border-color);
+}
+
+/* ==========================================================================
+   Table & Data Grid Styling
+   ========================================================================== */
+.tablebox {
+    overflow: hidden;
+}
+
+.tablehead {
+    padding: 15px 18px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.scroll {
+    overflow: auto;
+    max-height: 62vh;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff !important;
+    text-align: left;
+    color: var(--text-primary);
+    z-index: 10;
+    opacity: 1 !important;
+    box-shadow: 0 1px 0 var(--border-color);
+}
+
+#groupheads th {
+    top: 0;
+    background-color: #dbeafe !important;
+    color: #1e40af !important;
+    text-align: center;
+    font-weight: 800;
+    opacity: 1 !important;
+    z-index: 11;
+}
+
+#heads th {
+    top: 34px;
+    background-color: #eff6ff !important;
+    color: #1e3a8a !important;
+    opacity: 1 !important;
+    z-index: 10;
+}
+
+#groupheads th[rowspan="2"] {
+    top: 0;
+    background-color: #dbeafe !important;
+    z-index: 12;
+}
+
+[data-theme="dark"] th, [data-bs-theme="dark"] th {
+    background-color: #1e293b !important;
+    color: #f8fafc !important;
+}
+
+[data-theme="dark"] #groupheads th, [data-bs-theme="dark"] #groupheads th {
+    background-color: #1e3a8a !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] #heads th, [data-bs-theme="dark"] #heads th {
+    background-color: #0f172a !important;
+    color: #93c5fd !important;
+}
+
+td, th {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+tbody tr:hover {
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.slab {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--success);
+    font-weight: 700;
+}
+
+.scroll {
+    overflow: auto;
+    max-height: 62vh;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+    border-radius: 8px;
+}
+
+/* ==========================================================================
+   Comprehensive Mobile & Tablet Responsive Design Rules
+   ========================================================================== */
+@media (max-width: 768px) {
+    header, .app-header {
+        padding: 12px 14px;
+    }
+    header h1 {
+        font-size: 18px !important;
+    }
+    header p {
+        font-size: 11px !important;
+    }
+    .logo-pill {
+        padding: 4px 10px;
+    }
+    .logo-pill img, .navbar-brand img {
+        height: 38px;
+    }
+    .wrap {
+        padding: 12px 10px;
+    }
+    .cards {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px;
+    }
+    .card {
+        padding: 14px 12px;
+    }
+    .num, .kpi-value {
+        font-size: 20px;
+    }
+    .grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px;
+    }
+    /* Prevent iOS auto-zoom on focus */
+    select, input {
+        font-size: 15px;
+        padding: 11px;
+    }
+    .scroll {
+        max-height: 55vh;
+    }
+    .screen-watermark {
+        width: 88vw;
+        max-width: 400px;
+    }
+    .actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    .actions button {
+        width: 100%;
+    }
+    .tablehead {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards {
+        grid-template-columns: 1fr !important;
+    }
+}
